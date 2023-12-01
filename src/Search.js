@@ -1,21 +1,34 @@
 import React, { useState } from "react";
-
 import data from "./data";
 
 const Search = () => {
-  const [state, setState] = useState(data);
+  const [filter, setFilter] = useState("");
 
-  return (
+    const searchText = (event) =>{
+        setFilter(event.target.value);
+    }
+
+    let dataSearch = data.cardData.filter(item =>{
+        return Object.keys(item).some(key =>
+            item[key].toString().toLowerCase().includes(filter.toString().toLowerCase())
+            )
+    });
+    return (
     <section className="py-4 container">
       <div className="row justify-content-center">
         <div className="col-12 mb-5">
           <div className="mb-3 col-4 mx-auto text-center">
             <label className="form-lable h4">Search</label>
-            <input type="text" className="from-control" />
+            <input 
+            type="text" 
+            className="from-control" 
+            value={filter}
+            onChange={searchText.bind(this)}
+            />
           </div>
         </div>
 
-        {data.cardData.map((item, index) => {
+        {dataSearch.map((item, index) => {
           return (
             <div className="col-11 col-md-6 col-lg-3 mx-0 mb-4">
               <div className="card p-0 overflow-hidden h-100 shadow">
